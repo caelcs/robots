@@ -9,6 +9,7 @@ import robots.commands.Command;
 import robots.domain.Coordinate;
 import robots.domain.Orientation;
 import robots.domain.Position;
+import robots.domain.Robot;
 import robots.factories.CommandFactory;
 import robots.factories.CoordinateFactory;
 import robots.factories.PositionFactory;
@@ -18,6 +19,7 @@ import java.util.Deque;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -71,5 +73,23 @@ public class RobotMissionControlTest {
 
         //Then
         assertThat(robotMissionControl.robots).isNotEmpty();
+    }
+
+    @Test
+    public void shouldExecute() {
+        //Given
+        ArrayDeque<Command> commands = new ArrayDeque<>();
+        commands.add(command);
+        Position position = new Position(5, 5, Orientation.E);
+        robotMissionControl.robots.add(new Robot(position, commands));
+        robotMissionControl.fieldSize = new Coordinate(10, 10);
+
+        //And
+        Position expectedFinalPosition = new Position(6, 5, Orientation.E);
+        when(command.execute(position)).thenReturn(expectedFinalPosition);
+
+        //When
+        robotMissionControl.execute();
+        verify(command).execute(position);
     }
 }

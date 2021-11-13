@@ -1,5 +1,5 @@
 package robots.domain;
 
 public enum Orientation {
-    E
+    E,W,N,S
 }

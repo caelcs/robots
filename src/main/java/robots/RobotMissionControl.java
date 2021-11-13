@@ -1,12 +1,16 @@
 package robots;
 
+import robots.commands.Command;
 import robots.domain.Coordinate;
+import robots.domain.Position;
 import robots.domain.Robot;
 import robots.factories.CommandFactory;
 import robots.factories.CoordinateFactory;
 import robots.factories.PositionFactory;
 
+import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.Deque;
 import java.util.List;
 
 public class RobotMissionControl {
@@ -34,5 +38,25 @@ public class RobotMissionControl {
     public void addRobot(String position, String commands) {
         robots.add(new Robot(positionFactory.getInstance(position),
                 commandFactory.getinstance(commands)));
+    }
+
+    public void execute() {
+        robots.forEach(it -> {
+            Position result = processRobot(it);
+            System.out.printf(result.toString());
+        });
+    }
+
+    private Position processRobot(Robot robot) {
+        Deque<Position> positions = new ArrayDeque<>();
+        positions.add(robot.getPosition());
+
+        robot.getCommands().stream().forEach(it -> {
+            Position lastPosition = positions.getLast();
+            Position newPosition = it.execute(lastPosition);
+            positions.add(newPosition);
+        });
+
+        return positions.getLast();
     }
 }
