@@ -1,5 +1,5 @@
 plugins {
-    id 'application'
+    id 'java'
 }
 
 repositories {
@@ -8,10 +8,8 @@ repositories {
 
 dependencies {
     testImplementation 'org.junit.jupiter:junit-jupiter:5.7.2'
-}
-
-application {
-    mainClass = 'App'
+    testImplementation 'org.mockito:mockito-junit-jupiter:4.0.0'
+    testImplementation 'org.assertj:assertj-core:3.21.0'
 }
 
 tasks.named('test') {
