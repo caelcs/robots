@@ -7,7 +7,7 @@ import java.util.Set;
 
 public class TurnRightCommand implements Command {
     @Override
-    public Position execute(Position position, Coordinate fieldSize, Set<Position> sents) {
+    public Position execute(Position position, Coordinate fieldSize, Set<Position> scents) {
         return null;
     }
 }

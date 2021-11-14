@@ -1,15 +1,18 @@
 package robots.commands;
 
 import robots.domain.Coordinate;
+import robots.domain.Orientation;
 import robots.domain.Position;
 
+import java.util.Map;
 import java.util.Set;
 
 public class TurnLeftCommand implements Command {
 
-    @Override
-    public Position execute(Position position, Coordinate fieldSize, Set<Position> sents) {
+    Map<Orientation, Orientation> turnTo = Map.of(Orientation.E, Orientation.N, Orientation.N, Orientation.W, Orientation.W, Orientation.S, Orientation.S, Orientation.E);
 
-        return null;
+    @Override
+    public Position execute(Position position, Coordinate fieldSize, Set<Position> scents) {
+        return new Position(position.getX(), position.getY(), turnTo.get(position.getOrientation()));
     }
 }

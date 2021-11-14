@@ -6,5 +6,5 @@ import robots.domain.Position;
 import java.util.Set;
 
 public interface Command {
-    Position execute(Position position, Coordinate fieldSize, Set<Position> sents);
+    Position execute(Position position, Coordinate fieldSize, Set<Position> scents);
 }

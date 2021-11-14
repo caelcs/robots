@@ -14,7 +14,7 @@ public class RobotMissionControl {
     List<Robot> robots;
     Coordinate fieldSize;
     List<Position> results;
-    Set<Position> sents;
+    Set<Position> scents;
 
     private final CoordinateFactory coordinateFactory;
     private final PositionFactory positionFactory;
@@ -28,7 +28,7 @@ public class RobotMissionControl {
         this.commandFactory = commandFactory;
         robots = new ArrayList<>();
         results = new ArrayList<>();
-        sents = new HashSet<>();
+        scents = new HashSet<>();
     }
 
     public void setFieldSize(String size) {
@@ -53,7 +53,7 @@ public class RobotMissionControl {
 
         robot.getCommands().forEach(command -> {
             Position lastPosition = positions.getLast();
-            Position newPosition = command.execute(lastPosition, fieldSize, sents);
+            Position newPosition = command.execute(lastPosition, fieldSize, scents);
             positions.add(newPosition);
         });
 
