@@ -16,10 +16,8 @@ import robots.factories.PositionFactory;
 
 import java.util.ArrayDeque;
 import java.util.Deque;
-import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -27,6 +25,9 @@ public class RobotMissionControlTest {
 
     @Mock
     private Command command;
+
+    @Mock
+    private Command command2;
 
     @Mock
     private CoordinateFactory coordinateFactory;
@@ -76,7 +77,7 @@ public class RobotMissionControlTest {
     }
 
     @Test
-    public void shouldExecute() {
+    public void shouldExecuteOneCommand() {
         //Given
         ArrayDeque<Command> commands = new ArrayDeque<>();
         commands.add(command);
@@ -90,6 +91,61 @@ public class RobotMissionControlTest {
 
         //When
         robotMissionControl.execute();
-        verify(command).execute(position);
+        assertThat(robotMissionControl.results).hasSize(1);
+        assertThat(robotMissionControl.results).contains(expectedFinalPosition);
+    }
+
+    @Test
+    public void shouldExecuteMultipleCommand() {
+        //Given
+        ArrayDeque<Command> commands = new ArrayDeque<>();
+        commands.add(command);
+        commands.add(command2);
+        Position position = new Position(5, 5, Orientation.E);
+        robotMissionControl.robots.add(new Robot(position, commands));
+        robotMissionControl.fieldSize = new Coordinate(10, 10);
+
+        //And
+        Position expectedIntermediatePosition = new Position(6, 5, Orientation.E);
+        when(command.execute(position)).thenReturn(expectedIntermediatePosition);
+
+        //And
+        Position expectedFinalPosition = new Position(7, 5, Orientation.E);
+        when(command2.execute(expectedIntermediatePosition)).thenReturn(expectedFinalPosition);
+
+        //When
+        robotMissionControl.execute();
+        assertThat(robotMissionControl.results).hasSize(1);
+        assertThat(robotMissionControl.results).contains(expectedFinalPosition);
+    }
+
+    @Test
+    public void shouldExecuteMultipleRobots() {
+        //Given
+        ArrayDeque<Command> commands = new ArrayDeque<>();
+        commands.add(command);
+        Position position = new Position(5, 5, Orientation.E);
+        robotMissionControl.robots.add(new Robot(position, commands));
+
+        //And
+        ArrayDeque<Command> commands2 = new ArrayDeque<>();
+        commands2.add(command2);
+        Position position2 = new Position(7, 7, Orientation.E);
+        robotMissionControl.robots.add(new Robot(position2, commands2));
+
+        robotMissionControl.fieldSize = new Coordinate(10, 10);
+
+        //And
+        Position expectedFinalPosition = new Position(6, 5, Orientation.E);
+        when(command.execute(position)).thenReturn(expectedFinalPosition);
+
+        //And
+        Position expectedFinalPosition2 = new Position(8, 8, Orientation.E);
+        when(command2.execute(position2)).thenReturn(expectedFinalPosition2);
+
+        //When
+        robotMissionControl.execute();
+        assertThat(robotMissionControl.results).hasSize(2);
+        assertThat(robotMissionControl.results).contains(expectedFinalPosition, expectedFinalPosition2);
     }
 }

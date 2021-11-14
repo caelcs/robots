@@ -17,6 +17,7 @@ public class RobotMissionControl {
 
     List<Robot> robots;
     Coordinate fieldSize;
+    List<Position> results;
 
     private final CoordinateFactory coordinateFactory;
     private final PositionFactory positionFactory;
@@ -29,6 +30,7 @@ public class RobotMissionControl {
         this.positionFactory = positionFactory;
         this.commandFactory = commandFactory;
         robots = new ArrayList<>();
+        results = new ArrayList<>();
     }
 
     public void setFieldSize(String size) {
@@ -43,7 +45,7 @@ public class RobotMissionControl {
     public void execute() {
         robots.forEach(it -> {
             Position result = processRobot(it);
-            System.out.printf(result.toString());
+            results.add(result);
         });
     }
 
