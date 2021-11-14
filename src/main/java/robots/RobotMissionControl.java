@@ -52,7 +52,7 @@ public class RobotMissionControl {
         Deque<Position> positions = new ArrayDeque<>();
         positions.add(robot.getInitialPosition());
 
-        robot.getCommands().stream().forEach(it -> {
+        robot.getCommands().forEach(it -> {
             Position lastPosition = positions.getLast();
             Position newPosition = it.execute(lastPosition);
             positions.add(newPosition);
