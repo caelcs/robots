@@ -73,4 +73,31 @@ class CommandFactoryTest {
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("No enum constant robots.domain.Movement.Z");
     }
+
+    @Test
+    public void shouldThrowExceptionWhenCommandFormatIsInvalid() {
+        //Given
+        String instructions = "L F";
+
+        //When
+        assertThatThrownBy(() -> commandFactory.getInstance(instructions))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("No space allowed between instructions");
+    }
+
+    @Test
+    public void shouldCreateMultipleCommandsWithRightOrder() {
+        //Given
+        String instructions = "FLR";
+
+        //When
+        Deque<Command> commands = commandFactory.getInstance(instructions);
+
+        //Then
+        assertThat(commands).isNotEmpty();
+        assertThat(commands).hasSize(3);
+        assertThat(commands.pollFirst()).isInstanceOf(ForwardCommand.class);
+        assertThat(commands.pollFirst()).isInstanceOf(TurnLeftCommand.class);
+        assertThat(commands.pollFirst()).isInstanceOf(TurnRightCommand.class);
+    }
 }

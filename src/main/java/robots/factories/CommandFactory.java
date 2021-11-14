@@ -17,6 +17,10 @@ import java.util.stream.Stream;
 public class CommandFactory {
 
     public Deque<Command> getInstance(String commands) {
+        if (commands.contains(" ")) {
+            throw new IllegalArgumentException("No space allowed between instructions");
+        }
+
         char[] charArray = commands.toCharArray();
         return IntStream.range(0, charArray.length)
                 .mapToObj(it -> create(String.valueOf(charArray[it])))
