@@ -22,9 +22,8 @@ class TurnLeftCommandTest {
 
     @ParameterizedTest
     @CsvSource(value = {"E,N", "N,W", "W,S", "S,E"})
-    public void shouldTurnLeft(String from, String to) {
+    public void shouldTurnLeft(Orientation actual, Orientation expected) {
         //Given
-        Orientation actual = Orientation.valueOf(from);
         Position position = new Position(3, 3, actual);
         Coordinate fieldSize = new Coordinate(5, 5);
         HashSet<Position> scents = new HashSet<>();
@@ -34,7 +33,6 @@ class TurnLeftCommandTest {
 
         //Then
         assertThat(result).isNotNull();
-        Orientation expected = Orientation.valueOf(to);
         assertThat(result).isEqualTo(new Position(3, 3, expected));
     }
 
