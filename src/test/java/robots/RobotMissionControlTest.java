@@ -146,6 +146,6 @@ public class RobotMissionControlTest {
         //When
         robotMissionControl.execute();
         assertThat(robotMissionControl.results).hasSize(2);
-        assertThat(robotMissionControl.results).contains(expectedFinalPosition, expectedFinalPosition2);
+        assertThat(robotMissionControl.results).containsExactly(expectedFinalPosition, expectedFinalPosition2);
     }
 }

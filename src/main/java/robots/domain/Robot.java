@@ -11,6 +11,6 @@ import java.util.Deque;
 @Getter
 @EqualsAndHashCode
 public class Robot {
-    private Position position;
+    private Position initialPosition;
     private Deque<Command> commands;
 }

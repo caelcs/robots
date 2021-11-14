@@ -1,6 +1,5 @@
 package robots;
 
-import robots.commands.Command;
 import robots.domain.Coordinate;
 import robots.domain.Position;
 import robots.domain.Robot;
@@ -51,7 +50,7 @@ public class RobotMissionControl {
 
     private Position processRobot(Robot robot) {
         Deque<Position> positions = new ArrayDeque<>();
-        positions.add(robot.getPosition());
+        positions.add(robot.getInitialPosition());
 
         robot.getCommands().stream().forEach(it -> {
             Position lastPosition = positions.getLast();
