@@ -7,16 +7,14 @@ import robots.factories.CommandFactory;
 import robots.factories.CoordinateFactory;
 import robots.factories.PositionFactory;
 
-import java.util.ArrayDeque;
-import java.util.ArrayList;
-import java.util.Deque;
-import java.util.List;
+import java.util.*;
 
 public class RobotMissionControl {
 
     List<Robot> robots;
     Coordinate fieldSize;
     List<Position> results;
+    Set<Position> sents;
 
     private final CoordinateFactory coordinateFactory;
     private final PositionFactory positionFactory;
@@ -30,6 +28,7 @@ public class RobotMissionControl {
         this.commandFactory = commandFactory;
         robots = new ArrayList<>();
         results = new ArrayList<>();
+        sents = new HashSet<>();
     }
 
     public void setFieldSize(String size) {
@@ -52,9 +51,9 @@ public class RobotMissionControl {
         Deque<Position> positions = new ArrayDeque<>();
         positions.add(robot.getInitialPosition());
 
-        robot.getCommands().forEach(it -> {
+        robot.getCommands().forEach(command -> {
             Position lastPosition = positions.getLast();
-            Position newPosition = it.execute(lastPosition);
+            Position newPosition = command.execute(lastPosition, fieldSize, sents);
             positions.add(newPosition);
         });
 
