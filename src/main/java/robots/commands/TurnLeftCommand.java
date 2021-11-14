@@ -9,7 +9,11 @@ import java.util.Set;
 
 public class TurnLeftCommand implements Command {
 
-    Map<Orientation, Orientation> turnTo = Map.of(Orientation.E, Orientation.N, Orientation.N, Orientation.W, Orientation.W, Orientation.S, Orientation.S, Orientation.E);
+    Map<Orientation, Orientation> turnTo = Map.of(
+            Orientation.E, Orientation.N,
+            Orientation.N, Orientation.W,
+            Orientation.W, Orientation.S,
+            Orientation.S, Orientation.E);
 
     @Override
     public Position execute(Position position, Coordinate fieldSize, Set<Position> scents) {

@@ -11,18 +11,18 @@ import java.util.HashSet;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-class TurnLeftCommandTest {
+class TurnRightCommandTest {
 
-    TurnLeftCommand turnLeftCommand;
+    TurnRightCommand turnRightCommand;
 
     @BeforeEach
     public void init() {
-        turnLeftCommand = new TurnLeftCommand();
+        turnRightCommand = new TurnRightCommand();
     }
 
     @ParameterizedTest
-    @CsvSource(value = {"E,N", "N,W", "W,S", "S,E"})
-    public void shouldTurnLeft(String from, String to) {
+    @CsvSource(value = {"E,S", "S,W", "W,N", "N,E"})
+    public void shouldTurnRight(String from, String to) {
         //Given
         Orientation actual = Orientation.valueOf(from);
         Position position = new Position(3, 3, actual);
@@ -30,7 +30,7 @@ class TurnLeftCommandTest {
         HashSet<Position> scents = new HashSet<>();
 
         //When
-        Position result = turnLeftCommand.execute(position, fieldSize, scents);
+        Position result = turnRightCommand.execute(position, fieldSize, scents);
 
         //Then
         assertThat(result).isNotNull();
