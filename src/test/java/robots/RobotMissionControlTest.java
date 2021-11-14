@@ -67,7 +67,7 @@ public class RobotMissionControlTest {
         when(positionFactory.getInstance(position)).thenReturn(new Position(10, 3, Orientation.E));
         Deque<Command> expectedCommands = new ArrayDeque<>();
         expectedCommands.add(command);
-        when(commandFactory.getinstance(commands)).thenReturn(expectedCommands);
+        when(commandFactory.getInstance(commands)).thenReturn(expectedCommands);
 
         //When
         robotMissionControl.addRobot(position, commands);

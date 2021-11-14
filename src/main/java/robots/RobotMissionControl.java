@@ -39,7 +39,7 @@ public class RobotMissionControl {
 
     public void addRobot(String position, String commands) {
         robots.add(new Robot(positionFactory.getInstance(position),
-                commandFactory.getinstance(commands)));
+                commandFactory.getInstance(commands)));
     }
 
     public void execute() {
