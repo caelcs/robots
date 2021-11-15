@@ -24,7 +24,7 @@ class TurnRightCommandTest {
     @CsvSource(value = {"E,S", "S,W", "W,N", "N,E"})
     public void shouldTurnRight(Orientation actual, Orientation expected) {
         //Given
-        Position position = new Position(3, 3, actual);
+        Position position = Position.builder().x(3).y(3).orientation(actual).build();
         Coordinate fieldSize = new Coordinate(5, 5);
         HashSet<Position> scents = new HashSet<>();
 
@@ -33,7 +33,7 @@ class TurnRightCommandTest {
 
         //Then
         assertThat(result).isNotNull();
-        assertThat(result).isEqualTo(new Position(3, 3, expected));
+        assertThat(result).isEqualTo(Position.builder().x(3).y(3).orientation(expected).build());
     }
 
 }

@@ -64,7 +64,7 @@ public class RobotMissionControlTest {
         String commands = "RLF";
 
         //And
-        when(positionFactory.getInstance(position)).thenReturn(new Position(10, 3, Orientation.E));
+        when(positionFactory.getInstance(position)).thenReturn(Position.builder().x(10).y(3).orientation(Orientation.E).build());
         Deque<Command> expectedCommands = new ArrayDeque<>();
         expectedCommands.add(command);
         when(commandFactory.getInstance(commands)).thenReturn(expectedCommands);
@@ -81,12 +81,12 @@ public class RobotMissionControlTest {
         //Given
         ArrayDeque<Command> commands = new ArrayDeque<>();
         commands.add(command);
-        Position position = new Position(5, 5, Orientation.E);
+        Position position = Position.builder().x(5).y(5).orientation(Orientation.E).build();
         robotMissionControl.robots.add(new Robot(position, commands));
         robotMissionControl.fieldSize = new Coordinate(10, 10);
 
         //And
-        Position expectedFinalPosition = new Position(6, 5, Orientation.E);
+        Position expectedFinalPosition = Position.builder().x(6).y(5).orientation(Orientation.E).build();
         when(command.execute(position, robotMissionControl.fieldSize, robotMissionControl.scents)).thenReturn(expectedFinalPosition);
 
         //When
@@ -101,16 +101,16 @@ public class RobotMissionControlTest {
         ArrayDeque<Command> commands = new ArrayDeque<>();
         commands.add(command);
         commands.add(command2);
-        Position position = new Position(5, 5, Orientation.E);
+        Position position = Position.builder().x(5).y(5).orientation(Orientation.E).build();;
         robotMissionControl.robots.add(new Robot(position, commands));
         robotMissionControl.fieldSize = new Coordinate(10, 10);
 
         //And
-        Position expectedIntermediatePosition = new Position(6, 5, Orientation.E);
+        Position expectedIntermediatePosition = Position.builder().x(6).y(5).orientation(Orientation.E).build();;
         when(command.execute(position, robotMissionControl.fieldSize, robotMissionControl.scents)).thenReturn(expectedIntermediatePosition);
 
         //And
-        Position expectedFinalPosition = new Position(7, 5, Orientation.E);
+        Position expectedFinalPosition = Position.builder().x(7).y(5).orientation(Orientation.E).build();;
         when(command2.execute(expectedIntermediatePosition, robotMissionControl.fieldSize, robotMissionControl.scents)).thenReturn(expectedFinalPosition);
 
         //When
@@ -124,23 +124,23 @@ public class RobotMissionControlTest {
         //Given
         ArrayDeque<Command> commands = new ArrayDeque<>();
         commands.add(command);
-        Position position = new Position(5, 5, Orientation.E);
+        Position position = Position.builder().x(5).y(5).orientation(Orientation.E).build();
         robotMissionControl.robots.add(new Robot(position, commands));
 
         //And
         ArrayDeque<Command> commands2 = new ArrayDeque<>();
         commands2.add(command2);
-        Position position2 = new Position(7, 7, Orientation.E);
+        Position position2 = Position.builder().x(7).y(7).orientation(Orientation.E).build();;
         robotMissionControl.robots.add(new Robot(position2, commands2));
 
         robotMissionControl.fieldSize = new Coordinate(10, 10);
 
         //And
-        Position expectedFinalPosition = new Position(6, 5, Orientation.E);
+        Position expectedFinalPosition = Position.builder().x(6).y(5).orientation(Orientation.E).build();;
         when(command.execute(position, robotMissionControl.fieldSize, robotMissionControl.scents)).thenReturn(expectedFinalPosition);
 
         //And
-        Position expectedFinalPosition2 = new Position(8, 8, Orientation.E);
+        Position expectedFinalPosition2 = Position.builder().x(8).y(8).orientation(Orientation.E).build();
         when(command2.execute(position2, robotMissionControl.fieldSize, robotMissionControl.scents)).thenReturn(expectedFinalPosition2);
 
         //When

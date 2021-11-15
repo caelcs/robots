@@ -12,8 +12,9 @@ public class PositionFactory {
             throw new IllegalArgumentException("Invalid Position");
         }
 
-        return new Position(Integer.parseInt(parts[0]),
-                Integer.parseInt(parts[1]),
-                Orientation.valueOf(parts[2]));
+        return Position.builder()
+                .x(Integer.parseInt(parts[0]))
+                .y(Integer.parseInt(parts[1]))
+                .orientation(Orientation.valueOf(parts[2])).build();
     }
 }

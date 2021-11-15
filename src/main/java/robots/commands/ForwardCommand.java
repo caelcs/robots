@@ -10,25 +10,28 @@ public class ForwardCommand implements Command {
 
     @Override
     public Position execute(Position position, Coordinate fieldSize, Set<Position> scents) {
+        if (scents.stream().anyMatch((it) -> it.equals(position))) {
+            return Position.builder().x(position.getX()).y(position.getY()).orientation(position.getOrientation()).build();
+        }
 
         if (position.getOrientation() == Orientation.N && position.getY() == fieldSize.getY()) {
             scents.add(position);
-            return position;
+            return Position.builder().x(position.getX()).y(position.getY()).orientation(position.getOrientation()).isLost(true).build();
         }
 
         if (position.getOrientation() == Orientation.S && position.getY() == 0) {
             scents.add(position);
-            return position;
+            return Position.builder().x(position.getX()).y(position.getY()).orientation(position.getOrientation()).isLost(true).build();
         }
 
         if (position.getOrientation() == Orientation.E && position.getX() == fieldSize.getX()) {
             scents.add(position);
-            return position;
+            return Position.builder().x(position.getX()).y(position.getY()).orientation(position.getOrientation()).isLost(true).build();
         }
 
         if (position.getOrientation() == Orientation.W && position.getX() == 0) {
             scents.add(position);
-            return position;
+            return Position.builder().x(position.getX()).y(position.getY()).orientation(position.getOrientation()).isLost(true).build();
         }
 
         int x = switch (position.getOrientation()) {
@@ -43,6 +46,8 @@ public class ForwardCommand implements Command {
             default -> position.getY();
         };
 
-        return new Position(x, y, position.getOrientation());
+        return Position.builder()
+                .x(x).y(y)
+                .orientation(position.getOrientation()).build();
     }
 }

@@ -17,6 +17,9 @@ public class TurnLeftCommand implements Command {
 
     @Override
     public Position execute(Position position, Coordinate fieldSize, Set<Position> scents) {
-        return new Position(position.getX(), position.getY(), turnTo.get(position.getOrientation()));
+        return Position.builder()
+                .x(position.getX())
+                .y(position.getY())
+                .orientation(turnTo.get(position.getOrientation())).build();
     }
 }
