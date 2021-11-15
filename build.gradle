@@ -15,6 +15,20 @@ dependencies {
     testImplementation 'org.assertj:assertj-core:3.21.0'
 }
 
-tasks.named('test') {
+test {
     useJUnitPlatform()
+    testLogging {
+        exceptionFormat = 'full'
+        events 'FAILED', 'SKIPPED', 'PASSED'
+        showStandardStreams = true
+        afterSuite { desc, result ->
+            if (!desc.parent) {
+                println "\nTest result: ${result.resultType}"
+                println "Test summary: ${result.testCount} tests, " +
+                        "${result.successfulTestCount} succeeded, " +
+                        "${result.failedTestCount} failed, " +
+                        "${result.skippedTestCount} skipped"
+            }
+        }
+    }
 }
