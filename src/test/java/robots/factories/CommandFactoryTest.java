@@ -8,6 +8,7 @@ import robots.commands.TurnLeftCommand;
 import robots.commands.TurnRightCommand;
 
 import java.util.Deque;
+import java.util.stream.IntStream;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -99,5 +100,16 @@ class CommandFactoryTest {
         assertThat(commands.pollFirst()).isInstanceOf(ForwardCommand.class);
         assertThat(commands.pollFirst()).isInstanceOf(TurnLeftCommand.class);
         assertThat(commands.pollFirst()).isInstanceOf(TurnRightCommand.class);
+    }
+
+    @Test
+    public void shouldThrowExceptionWhenCommandLengthIsGreaterThan100() {
+        //Given
+        String instructions = "L".repeat(101);
+
+        //When
+        assertThatThrownBy(() -> commandFactory.getInstance(instructions))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("commands size should be less than 100");
     }
 }

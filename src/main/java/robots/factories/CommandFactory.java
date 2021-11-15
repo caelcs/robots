@@ -18,6 +18,10 @@ public class CommandFactory {
             throw new IllegalArgumentException("No space allowed between instructions");
         }
 
+        if (commands.length() > 99) {
+            throw new IllegalArgumentException("commands size should be less than 100");
+        }
+
         char[] charArray = commands.toCharArray();
         return IntStream.range(0, charArray.length)
                 .mapToObj(it -> create(String.valueOf(charArray[it])))
