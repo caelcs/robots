@@ -2,6 +2,10 @@ package robots;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import robots.commands.Command;
+import robots.commands.ForwardCommand;
+import robots.commands.TurnLeftCommand;
+import robots.commands.TurnRightCommand;
 import robots.domain.Orientation;
 import robots.domain.Position;
 import robots.factories.CommandFactory;
@@ -16,9 +20,12 @@ public class RobotMissionControlIntegrationTest {
 
     @BeforeEach
     public void init() {
+        Command forwardCommand = new ForwardCommand();
+        Command leftCommand = new TurnLeftCommand();
+        Command rightCommand = new TurnRightCommand();
         CoordinateFactory coordinateFactory = new CoordinateFactory();
         PositionFactory positionFactory = new PositionFactory();
-        CommandFactory commandFactory = new CommandFactory();
+        CommandFactory commandFactory = new CommandFactory(forwardCommand, leftCommand, rightCommand);
         robotMissionControl = new RobotMissionControl(coordinateFactory, positionFactory, commandFactory);
     }
 

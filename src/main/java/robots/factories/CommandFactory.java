@@ -1,9 +1,6 @@
 package robots.factories;
 
 import robots.commands.Command;
-import robots.commands.ForwardCommand;
-import robots.commands.TurnLeftCommand;
-import robots.commands.TurnRightCommand;
 import robots.domain.Movement;
 
 import java.util.ArrayDeque;
@@ -12,6 +9,16 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 public class CommandFactory {
+
+    private final Command forwardCommand;
+    private final Command leftCommand;
+    private final Command rightCommand;
+
+    public CommandFactory(Command forwardCommand, Command leftCommand, Command rightCommand) {
+        this.forwardCommand = forwardCommand;
+        this.leftCommand = leftCommand;
+        this.rightCommand = rightCommand;
+    }
 
     public Deque<Command> getInstance(String commands) {
         if (commands.contains(" ")) {
@@ -31,9 +38,9 @@ public class CommandFactory {
     private Command create(String aChar) {
         Movement movement = Movement.valueOf(aChar);
         return switch (movement) {
-            case F -> new ForwardCommand();
-            case L -> new TurnLeftCommand();
-            case R -> new TurnRightCommand();
+            case F -> forwardCommand;
+            case L -> leftCommand;
+            case R -> rightCommand;
         };
     }
 

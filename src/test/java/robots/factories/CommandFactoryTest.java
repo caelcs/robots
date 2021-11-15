@@ -2,24 +2,33 @@ package robots.factories;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 import robots.commands.Command;
-import robots.commands.ForwardCommand;
-import robots.commands.TurnLeftCommand;
-import robots.commands.TurnRightCommand;
 
 import java.util.Deque;
-import java.util.stream.IntStream;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+@ExtendWith(MockitoExtension.class)
 class CommandFactoryTest {
+
+    @Mock
+    private Command forwardCommand;
+
+    @Mock
+    private Command leftCommand;
+
+    @Mock
+    private Command rightCommand;
 
     private CommandFactory commandFactory;
 
     @BeforeEach
     public void init() {
-        commandFactory = new CommandFactory();
+        commandFactory = new CommandFactory(forwardCommand, leftCommand, rightCommand);
     }
 
     @Test
@@ -33,7 +42,7 @@ class CommandFactoryTest {
         //Then
         assertThat(commands).isNotEmpty();
         assertThat(commands).hasSize(1);
-        assertThat(commands.getLast()).isInstanceOf(TurnLeftCommand.class);
+        assertThat(commands.getLast()).isEqualTo(leftCommand);
     }
 
     @Test
@@ -47,7 +56,7 @@ class CommandFactoryTest {
         //Then
         assertThat(commands).isNotEmpty();
         assertThat(commands).hasSize(1);
-        assertThat(commands.getLast()).isInstanceOf(TurnRightCommand.class);
+        assertThat(commands.getLast()).isEqualTo(rightCommand);
     }
 
     @Test
@@ -61,7 +70,7 @@ class CommandFactoryTest {
         //Then
         assertThat(commands).isNotEmpty();
         assertThat(commands).hasSize(1);
-        assertThat(commands.getLast()).isInstanceOf(ForwardCommand.class);
+        assertThat(commands.getLast()).isEqualTo(forwardCommand);
     }
 
     @Test
@@ -97,9 +106,9 @@ class CommandFactoryTest {
         //Then
         assertThat(commands).isNotEmpty();
         assertThat(commands).hasSize(3);
-        assertThat(commands.pollFirst()).isInstanceOf(ForwardCommand.class);
-        assertThat(commands.pollFirst()).isInstanceOf(TurnLeftCommand.class);
-        assertThat(commands.pollFirst()).isInstanceOf(TurnRightCommand.class);
+        assertThat(commands.pollFirst()).isEqualTo(forwardCommand);
+        assertThat(commands.pollFirst()).isEqualTo(leftCommand);
+        assertThat(commands.pollFirst()).isEqualTo(rightCommand);
     }
 
     @Test
