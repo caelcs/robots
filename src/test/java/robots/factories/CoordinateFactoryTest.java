@@ -37,4 +37,20 @@ class CoordinateFactoryTest {
                 .hasMessage("Invalid field size");
 
     }
+
+    @Test
+    public void shouldThrowExceptionWhenXIsGreater() {
+        //When
+        assertThatThrownBy(() -> coordinateFactory.getInstance("51 1"))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("Max coordinate is 50");
+    }
+
+    @Test
+    public void shouldThrowExceptionWhenYIsGreater() {
+        //When
+        assertThatThrownBy(() -> coordinateFactory.getInstance("1 51"))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("Max coordinate is 50");
+    }
 }
