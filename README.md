@@ -13,3 +13,7 @@ I have provided an Integration test `RobotMissionControlIntegrationTest` that co
 components and by adding test cases scenario you play around with it.
 
 There I added the sample that you described in the PDF.
+
+just checkout the project, and within the folder run:
+
+`./gradlew test`
