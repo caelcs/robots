@@ -17,15 +17,15 @@ class ForwardCommandTest {
     ForwardCommand forwardCommand;
 
     @BeforeEach
-    public void init() {
+    void init() {
         forwardCommand = new ForwardCommand();
     }
 
     @ParameterizedTest
     @CsvSource(value = {"3,4,N", "3,2,S", "4,3,E", "2,3,W"})
-    public void shouldMoveForward(Integer x, Integer y, Orientation orientation) {
+    void shouldMoveForward(Integer x, Integer y, Orientation orientation) {
         //Given
-        Position position = Position.builder().x(3).y(3).orientation(orientation).build();
+        Position position = new Position(3, 3, orientation, false);
         Coordinate fieldSize = new Coordinate(5, 5);
         HashSet<Position> scents = new HashSet<>();
 
@@ -33,14 +33,13 @@ class ForwardCommandTest {
         Position result = forwardCommand.execute(position, fieldSize, scents);
 
         //Then
-        assertThat(result).isNotNull();
-        assertThat(result).isEqualTo(Position.builder().x(x).y(y).orientation(position.getOrientation()).isLost(false).build());
+        assertThat(result).isEqualTo(new Position(x, y, position.orientation(), false));
     }
 
     @ParameterizedTest
     @CsvSource(value = {"3,5,N", "3,0,S", "5,3,E", "0,3,W"})
-    public void shouldCreateAScentWhenThereIsNoScentOnCurrentPosition(Integer x, Integer y, Orientation orientation) {
-        Position position = Position.builder().x(x).y(y).orientation(orientation).build();
+    void shouldCreateAScentWhenThereIsNoScentOnCurrentPosition(Integer x, Integer y, Orientation orientation) {
+        Position position = new Position(x, y, orientation, false);
         Coordinate fieldSize = new Coordinate(5, 5);
         HashSet<Position> scents = new HashSet<>();
 
@@ -48,17 +47,17 @@ class ForwardCommandTest {
         Position result = forwardCommand.execute(position, fieldSize, scents);
 
         //Then
-        assertThat(result.getX()).isEqualTo(position.getX());
-        assertThat(result.getY()).isEqualTo(position.getY());
-        assertThat(result.getOrientation()).isEqualTo(position.getOrientation());
+        assertThat(result.x()).isEqualTo(position.x());
+        assertThat(result.y()).isEqualTo(position.y());
+        assertThat(result.orientation()).isEqualTo(position.orientation());
         assertThat(result.isLost()).isTrue();
 
         assertThat(scents).contains(position);
     }
 
     @Test
-    public void shouldIgnoreCommandWhenThereIsAScent() {
-        Position position = Position.builder().x(5).y(5).orientation(Orientation.N).build();
+    void shouldIgnoreCommandWhenThereIsAScent() {
+        Position position = new Position(5, 5, Orientation.N, false);
         Coordinate fieldSize = new Coordinate(5, 5);
         HashSet<Position> scents = new HashSet<>();
         scents.add(position);

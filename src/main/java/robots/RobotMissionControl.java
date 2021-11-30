@@ -49,10 +49,10 @@ public class RobotMissionControl {
 
     private Position processRobot(Robot robot) {
         Deque<Position> positions = new ArrayDeque<>();
-        positions.add(robot.getInitialPosition());
+        positions.add(robot.initialPosition());
 
-        robot.getCommands().stream()
-                .takeWhile((n) -> positions.stream().noneMatch(Position::isLost))
+        robot.commands().stream()
+                .takeWhile(n -> positions.stream().noneMatch(Position::isLost))
                 .forEach(command -> {
                     Position lastPosition = positions.getLast();
                     Position newPosition = command.execute(lastPosition, fieldSize, scents);

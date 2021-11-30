@@ -16,15 +16,15 @@ class TurnLeftCommandTest {
     TurnLeftCommand turnLeftCommand;
 
     @BeforeEach
-    public void init() {
+    void init() {
         turnLeftCommand = new TurnLeftCommand();
     }
 
     @ParameterizedTest
     @CsvSource(value = {"E,N", "N,W", "W,S", "S,E"})
-    public void shouldTurnLeft(Orientation actual, Orientation expected) {
+    void shouldTurnLeft(Orientation actual, Orientation expected) {
         //Given
-        Position position = Position.builder().x(3).y(3).orientation(actual).build();
+        Position position = new Position(3, 3, actual, false);
         Coordinate fieldSize = new Coordinate(5, 5);
         HashSet<Position> scents = new HashSet<>();
 
@@ -32,8 +32,7 @@ class TurnLeftCommandTest {
         Position result = turnLeftCommand.execute(position, fieldSize, scents);
 
         //Then
-        assertThat(result).isNotNull();
-        assertThat(result).isEqualTo(Position.builder().x(3).y(3).orientation(expected).build());
+        assertThat(result).isEqualTo(new Position(3, 3, expected, false));
     }
 
 }

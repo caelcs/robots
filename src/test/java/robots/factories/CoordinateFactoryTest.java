@@ -4,7 +4,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
-import robots.domain.Coordinate;;import static org.assertj.core.api.Assertions.assertThat;
+import robots.domain.Coordinate;
+
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 class CoordinateFactoryTest {
@@ -12,12 +14,12 @@ class CoordinateFactoryTest {
     private CoordinateFactory coordinateFactory;
 
     @BeforeEach
-    public void initFactory() {
+    void initFactory() {
         coordinateFactory = new CoordinateFactory();
     }
 
     @Test
-    public void shouldCreateCoordinate() {
+    void shouldCreateCoordinate() {
         //Given
         String coordinate = "10 5";
 
@@ -30,7 +32,7 @@ class CoordinateFactoryTest {
 
     @ParameterizedTest
     @ValueSource(strings = {"102","12 12 2",""})
-    public void shouldThrowExceptionWhenFormatIsInvalid(String instruction) {
+    void shouldThrowExceptionWhenFormatIsInvalid(String instruction) {
         //When
         assertThatThrownBy(() -> coordinateFactory.getInstance(instruction))
                 .isInstanceOf(IllegalArgumentException.class)
@@ -39,7 +41,7 @@ class CoordinateFactoryTest {
     }
 
     @Test
-    public void shouldThrowExceptionWhenXIsGreater() {
+    void shouldThrowExceptionWhenXIsGreater() {
         //When
         assertThatThrownBy(() -> coordinateFactory.getInstance("51 1"))
                 .isInstanceOf(IllegalArgumentException.class)
@@ -47,7 +49,7 @@ class CoordinateFactoryTest {
     }
 
     @Test
-    public void shouldThrowExceptionWhenYIsGreater() {
+    void shouldThrowExceptionWhenYIsGreater() {
         //When
         assertThatThrownBy(() -> coordinateFactory.getInstance("1 51"))
                 .isInstanceOf(IllegalArgumentException.class)

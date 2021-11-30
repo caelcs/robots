@@ -21,7 +21,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-public class RobotMissionControlTest {
+class RobotMissionControlTest {
 
     @Mock
     private Command command;
@@ -42,7 +42,7 @@ public class RobotMissionControlTest {
     private RobotMissionControl robotMissionControl;
 
     @Test
-    public void shouldSetFieldSize() {
+    void shouldSetFieldSize() {
         //Given
         String size = "10 6";
 
@@ -58,13 +58,14 @@ public class RobotMissionControlTest {
     }
 
     @Test
-    public void shouldAddRobot() {
+    void shouldAddRobot() {
         //Given
         String position = "10 3 E";
         String commands = "RLF";
 
         //And
-        when(positionFactory.getInstance(position)).thenReturn(Position.builder().x(10).y(3).orientation(Orientation.E).build());
+        when(positionFactory.getInstance(position))
+                .thenReturn(new Position(10, 3, Orientation.E, false));
         Deque<Command> expectedCommands = new ArrayDeque<>();
         expectedCommands.add(command);
         when(commandFactory.getInstance(commands)).thenReturn(expectedCommands);
@@ -77,75 +78,79 @@ public class RobotMissionControlTest {
     }
 
     @Test
-    public void shouldExecuteOneCommand() {
+    void shouldExecuteOneCommand() {
         //Given
         ArrayDeque<Command> commands = new ArrayDeque<>();
         commands.add(command);
-        Position position = Position.builder().x(5).y(5).orientation(Orientation.E).build();
+        Position position = new Position(5, 5, Orientation.E, false);
         robotMissionControl.robots.add(new Robot(position, commands));
         robotMissionControl.fieldSize = new Coordinate(10, 10);
 
         //And
-        Position expectedFinalPosition = Position.builder().x(6).y(5).orientation(Orientation.E).build();
-        when(command.execute(position, robotMissionControl.fieldSize, robotMissionControl.scents)).thenReturn(expectedFinalPosition);
+        Position expectedFinalPosition = new Position(6, 5, Orientation.E, false);
+        when(command.execute(position, robotMissionControl.fieldSize, robotMissionControl.scents))
+                .thenReturn(expectedFinalPosition);
 
         //When
         robotMissionControl.execute();
-        assertThat(robotMissionControl.results).hasSize(1);
-        assertThat(robotMissionControl.results).contains(expectedFinalPosition);
+        assertThat(robotMissionControl.results)
+                .hasSize(1)
+                .contains(expectedFinalPosition);
     }
 
     @Test
-    public void shouldExecuteMultipleCommand() {
+    void shouldExecuteMultipleCommand() {
         //Given
         ArrayDeque<Command> commands = new ArrayDeque<>();
         commands.add(command);
         commands.add(command2);
-        Position position = Position.builder().x(5).y(5).orientation(Orientation.E).build();;
+        Position position = new Position(5, 5, Orientation.E, false);
         robotMissionControl.robots.add(new Robot(position, commands));
         robotMissionControl.fieldSize = new Coordinate(10, 10);
 
         //And
-        Position expectedIntermediatePosition = Position.builder().x(6).y(5).orientation(Orientation.E).build();;
+        Position expectedIntermediatePosition = new Position(6, 5, Orientation.E, false);
         when(command.execute(position, robotMissionControl.fieldSize, robotMissionControl.scents)).thenReturn(expectedIntermediatePosition);
 
         //And
-        Position expectedFinalPosition = Position.builder().x(7).y(5).orientation(Orientation.E).build();;
+        Position expectedFinalPosition = new Position(7, 5, Orientation.E, false);
         when(command2.execute(expectedIntermediatePosition, robotMissionControl.fieldSize, robotMissionControl.scents)).thenReturn(expectedFinalPosition);
 
         //When
         robotMissionControl.execute();
-        assertThat(robotMissionControl.results).hasSize(1);
-        assertThat(robotMissionControl.results).contains(expectedFinalPosition);
+        assertThat(robotMissionControl.results)
+                .hasSize(1)
+                .contains(expectedFinalPosition);
     }
 
     @Test
-    public void shouldExecuteMultipleRobots() {
+    void shouldExecuteMultipleRobots() {
         //Given
         ArrayDeque<Command> commands = new ArrayDeque<>();
         commands.add(command);
-        Position position = Position.builder().x(5).y(5).orientation(Orientation.E).build();
+        Position position = new Position(5, 5, Orientation.E, false);
         robotMissionControl.robots.add(new Robot(position, commands));
 
         //And
         ArrayDeque<Command> commands2 = new ArrayDeque<>();
         commands2.add(command2);
-        Position position2 = Position.builder().x(7).y(7).orientation(Orientation.E).build();;
+        Position position2 = new Position(7, 7, Orientation.E, false);
         robotMissionControl.robots.add(new Robot(position2, commands2));
 
         robotMissionControl.fieldSize = new Coordinate(10, 10);
 
         //And
-        Position expectedFinalPosition = Position.builder().x(6).y(5).orientation(Orientation.E).build();;
+        Position expectedFinalPosition = new Position(6, 5, Orientation.E, false);
         when(command.execute(position, robotMissionControl.fieldSize, robotMissionControl.scents)).thenReturn(expectedFinalPosition);
 
         //And
-        Position expectedFinalPosition2 = Position.builder().x(8).y(8).orientation(Orientation.E).build();
+        Position expectedFinalPosition2 = new Position(8, 8, Orientation.E, false);
         when(command2.execute(position2, robotMissionControl.fieldSize, robotMissionControl.scents)).thenReturn(expectedFinalPosition2);
 
         //When
         robotMissionControl.execute();
-        assertThat(robotMissionControl.results).hasSize(2);
-        assertThat(robotMissionControl.results).containsExactly(expectedFinalPosition, expectedFinalPosition2);
+        assertThat(robotMissionControl.results)
+                .hasSize(2)
+                .containsExactly(expectedFinalPosition, expectedFinalPosition2);
     }
 }

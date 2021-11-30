@@ -15,12 +15,12 @@ class PositionFactoryTest {
     private PositionFactory positionFactory;
 
     @BeforeEach
-    public void init() {
+    void init() {
         positionFactory = new PositionFactory();
     }
 
     @Test
-    public void shouldCreatePosition() {
+    void shouldCreatePosition() {
         //Given
         String position = "1 3 E";
 
@@ -29,15 +29,15 @@ class PositionFactoryTest {
 
         //Then
         assertThat(result).isNotNull();
-        assertThat(result.getX()).isEqualTo(1);
-        assertThat(result.getY()).isEqualTo(3);
-        assertThat(result.getOrientation()).isEqualTo(E);
+        assertThat(result.x()).isEqualTo(1);
+        assertThat(result.y()).isEqualTo(3);
+        assertThat(result.orientation()).isEqualTo(E);
 
     }
 
     @ParameterizedTest
     @ValueSource(strings = {"102","12 12","", "2 3 E 5"})
-    public void shouldThrowExceptionWhenFormatIsInvalid(String position) {
+    void shouldThrowExceptionWhenFormatIsInvalid(String position) {
         //When
         assertThatThrownBy(() -> positionFactory.getInstance(position))
                 .isInstanceOf(IllegalArgumentException.class)
@@ -45,7 +45,7 @@ class PositionFactoryTest {
     }
 
     @Test
-    public void shouldThrowExceptionWhenOrientationIsInvalid() {
+    void shouldThrowExceptionWhenOrientationIsInvalid() {
         //When
         assertThatThrownBy(() -> positionFactory.getInstance("1 2 T"))
                 .isInstanceOf(IllegalArgumentException.class)

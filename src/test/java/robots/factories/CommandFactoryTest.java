@@ -27,12 +27,12 @@ class CommandFactoryTest {
     private CommandFactory commandFactory;
 
     @BeforeEach
-    public void init() {
+    void init() {
         commandFactory = new CommandFactory(forwardCommand, leftCommand, rightCommand);
     }
 
     @Test
-    public void shouldCreateTurnLeftCommand() {
+    void shouldCreateTurnLeftCommand() {
         //Given
         String instructions = "L";
 
@@ -40,13 +40,12 @@ class CommandFactoryTest {
         Deque<Command> commands = commandFactory.getInstance(instructions);
 
         //Then
-        assertThat(commands).isNotEmpty();
         assertThat(commands).hasSize(1);
         assertThat(commands.getLast()).isEqualTo(leftCommand);
     }
 
     @Test
-    public void shouldCreateTurnRightCommand() {
+    void shouldCreateTurnRightCommand() {
         //Given
         String instructions = "R";
 
@@ -54,13 +53,12 @@ class CommandFactoryTest {
         Deque<Command> commands = commandFactory.getInstance(instructions);
 
         //Then
-        assertThat(commands).isNotEmpty();
         assertThat(commands).hasSize(1);
         assertThat(commands.getLast()).isEqualTo(rightCommand);
     }
 
     @Test
-    public void shouldCreateForwardCommand() {
+    void shouldCreateForwardCommand() {
         //Given
         String instructions = "F";
 
@@ -68,13 +66,12 @@ class CommandFactoryTest {
         Deque<Command> commands = commandFactory.getInstance(instructions);
 
         //Then
-        assertThat(commands).isNotEmpty();
         assertThat(commands).hasSize(1);
         assertThat(commands.getLast()).isEqualTo(forwardCommand);
     }
 
     @Test
-    public void shouldThrowExceptionWhenCommandIsNotSupported() {
+    void shouldThrowExceptionWhenCommandIsNotSupported() {
         //Given
         String instructions = "Z";
 
@@ -85,7 +82,7 @@ class CommandFactoryTest {
     }
 
     @Test
-    public void shouldThrowExceptionWhenCommandFormatIsInvalid() {
+    void shouldThrowExceptionWhenCommandFormatIsInvalid() {
         //Given
         String instructions = "L F";
 
@@ -96,7 +93,7 @@ class CommandFactoryTest {
     }
 
     @Test
-    public void shouldCreateMultipleCommandsWithRightOrder() {
+    void shouldCreateMultipleCommandsWithRightOrder() {
         //Given
         String instructions = "FLR";
 
@@ -104,7 +101,6 @@ class CommandFactoryTest {
         Deque<Command> commands = commandFactory.getInstance(instructions);
 
         //Then
-        assertThat(commands).isNotEmpty();
         assertThat(commands).hasSize(3);
         assertThat(commands.pollFirst()).isEqualTo(forwardCommand);
         assertThat(commands.pollFirst()).isEqualTo(leftCommand);
@@ -112,7 +108,7 @@ class CommandFactoryTest {
     }
 
     @Test
-    public void shouldThrowExceptionWhenCommandLengthIsGreaterThan100() {
+    void shouldThrowExceptionWhenCommandLengthIsGreaterThan100() {
         //Given
         String instructions = "L".repeat(101);
 

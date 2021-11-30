@@ -14,12 +14,12 @@ import robots.factories.PositionFactory;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class RobotMissionControlIntegrationTest {
+class RobotMissionControlIntegrationTest {
 
     private RobotMissionControl robotMissionControl;
 
     @BeforeEach
-    public void init() {
+    void init() {
         Command forwardCommand = new ForwardCommand();
         Command leftCommand = new TurnLeftCommand();
         Command rightCommand = new TurnRightCommand();
@@ -30,7 +30,7 @@ public class RobotMissionControlIntegrationTest {
     }
 
     @Test
-    public void shouldReturnRightPositionForOneRobot() {
+    void shouldReturnRightPositionForOneRobot() {
         //Given
         robotMissionControl.setFieldSize("5 3");
         robotMissionControl.addRobot("1 1 E", "RFRFRFRF");
@@ -40,11 +40,11 @@ public class RobotMissionControlIntegrationTest {
 
         //Then
         assertThat(robotMissionControl.results)
-                .contains(Position.builder().x(1).y(1).orientation(Orientation.E).build());
+                .contains(new Position(1, 1, Orientation.E, false));
     }
 
     @Test
-    public void shouldReturnRightPositionsForLostRobot() {
+    void shouldReturnRightPositionsForLostRobot() {
         //Given
         robotMissionControl.setFieldSize("5 3");
         robotMissionControl.addRobot("3 2 N", "FRRFLLFFRRFLL");
@@ -53,13 +53,13 @@ public class RobotMissionControlIntegrationTest {
         robotMissionControl.execute();
 
         //Then
-        assertThat(robotMissionControl.results).hasSize(1);
         assertThat(robotMissionControl.results)
-                .contains(Position.builder().x(3).y(3).orientation(Orientation.N).isLost(true).build());
+                .hasSize(1)
+                .contains(new Position(3, 3, Orientation.N,true));
     }
 
     @Test
-    public void shouldReturnRightPositionsForTwoRobots() {
+    void shouldReturnRightPositionsForTwoRobots() {
         //Given
         robotMissionControl.setFieldSize("5 3");
         robotMissionControl.addRobot("1 1 E", "RFRFRFRF");
@@ -70,15 +70,14 @@ public class RobotMissionControlIntegrationTest {
         robotMissionControl.execute();
 
         //Then
-        assertThat(robotMissionControl.results).hasSize(3);
         assertThat(robotMissionControl.results)
-                .contains(Position.builder().x(1).y(1).orientation(Orientation.E).build())
-                .contains(Position.builder().x(3).y(3).orientation(Orientation.N).isLost(true).build())
-                .contains(Position.builder().x(2).y(3).orientation(Orientation.S).isLost(false).build());
+                .hasSize(3)
+                .contains(new Position(1, 1, Orientation.E, false))
+                .contains(new Position(2, 3, Orientation.S, false));
     }
 
     @Test
-    public void shouldReturnRightPositionsWhenThereIsScentRobots() {
+    void shouldReturnRightPositionsWhenThereIsScentRobots() {
         //Given
         robotMissionControl.setFieldSize("5 3");
         robotMissionControl.addRobot("1 1 E", "RFRFRFRF");
@@ -90,16 +89,16 @@ public class RobotMissionControlIntegrationTest {
         robotMissionControl.execute();
 
         //Then
-        assertThat(robotMissionControl.results).hasSize(4);
         assertThat(robotMissionControl.results)
-                .contains(Position.builder().x(1).y(1).orientation(Orientation.E).build())
-                .contains(Position.builder().x(3).y(3).orientation(Orientation.N).isLost(true).build())
-                .contains(Position.builder().x(2).y(3).orientation(Orientation.S).isLost(false).build())
-                .contains(Position.builder().x(3).y(1).orientation(Orientation.S).isLost(false).build());
+                .hasSize(4)
+                .contains(new Position(1,1, Orientation.E, false))
+                .contains(new Position(3,3, Orientation.N, true))
+                .contains(new Position(2,3, Orientation.S, false))
+                .contains(new Position(3,1, Orientation.S, false));
     }
 
     @Test
-    public void shouldReturnRightPositionsWhenThereAreMoreScentsRobots() {
+    void shouldReturnRightPositionsWhenThereAreMoreScentsRobots() {
         //Given
         robotMissionControl.setFieldSize("5 3");
         robotMissionControl.addRobot("1 1 E", "RFRFRFRF");
@@ -111,12 +110,12 @@ public class RobotMissionControlIntegrationTest {
         robotMissionControl.execute();
 
         //Then
-        assertThat(robotMissionControl.results).hasSize(4);
         assertThat(robotMissionControl.results)
-                .contains(Position.builder().x(1).y(1).orientation(Orientation.E).build())
-                .contains(Position.builder().x(3).y(3).orientation(Orientation.N).isLost(true).build())
-                .contains(Position.builder().x(4).y(3).orientation(Orientation.N).isLost(true).build())
-                .contains(Position.builder().x(4).y(3).orientation(Orientation.E).isLost(false).build());
+                .hasSize(4)
+                .contains(new Position(1,1, Orientation.E, false))
+                .contains(new Position(3,3, Orientation.N,true))
+                .contains(new Position(4,3, Orientation.N,true))
+                .contains(new Position(4,3, Orientation.E,false));
     }
 
 }
