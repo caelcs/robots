@@ -48,7 +48,8 @@ class RobotMissionControlTest {
 
         //And
         Coordinate expectedCoordinate = new Coordinate(10, 6);
-        when(coordinateFactory.getInstance(size)).thenReturn(expectedCoordinate);
+        when(coordinateFactory.getInstance(size))
+                .thenReturn(expectedCoordinate);
 
         //When
         robotMissionControl.setFieldSize(size);
@@ -68,7 +69,8 @@ class RobotMissionControlTest {
                 .thenReturn(new Position(10, 3, Orientation.E, false));
         Deque<Command> expectedCommands = new ArrayDeque<>();
         expectedCommands.add(command);
-        when(commandFactory.getInstance(commands)).thenReturn(expectedCommands);
+        when(commandFactory.getInstance(commands))
+                .thenReturn(expectedCommands);
 
         //When
         robotMissionControl.addRobot(position, commands);
@@ -110,11 +112,13 @@ class RobotMissionControlTest {
 
         //And
         Position expectedIntermediatePosition = new Position(6, 5, Orientation.E, false);
-        when(command.execute(position, robotMissionControl.fieldSize, robotMissionControl.scents)).thenReturn(expectedIntermediatePosition);
+        when(command.execute(position, robotMissionControl.fieldSize, robotMissionControl.scents))
+                .thenReturn(expectedIntermediatePosition);
 
         //And
         Position expectedFinalPosition = new Position(7, 5, Orientation.E, false);
-        when(command2.execute(expectedIntermediatePosition, robotMissionControl.fieldSize, robotMissionControl.scents)).thenReturn(expectedFinalPosition);
+        when(command2.execute(expectedIntermediatePosition, robotMissionControl.fieldSize, robotMissionControl.scents))
+                .thenReturn(expectedFinalPosition);
 
         //When
         robotMissionControl.execute();
@@ -141,11 +145,13 @@ class RobotMissionControlTest {
 
         //And
         Position expectedFinalPosition = new Position(6, 5, Orientation.E, false);
-        when(command.execute(position, robotMissionControl.fieldSize, robotMissionControl.scents)).thenReturn(expectedFinalPosition);
+        when(command.execute(position, robotMissionControl.fieldSize, robotMissionControl.scents))
+                .thenReturn(expectedFinalPosition);
 
         //And
         Position expectedFinalPosition2 = new Position(8, 8, Orientation.E, false);
-        when(command2.execute(position2, robotMissionControl.fieldSize, robotMissionControl.scents)).thenReturn(expectedFinalPosition2);
+        when(command2.execute(position2, robotMissionControl.fieldSize, robotMissionControl.scents))
+                .thenReturn(expectedFinalPosition2);
 
         //When
         robotMissionControl.execute();
